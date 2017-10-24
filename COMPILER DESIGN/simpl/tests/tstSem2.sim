@@ -1,0 +1,13 @@
+pow2(n) |i|
+	sum <- 1 !
+	if (n > 0) = 0?
+		pow2 <- 0 !
+	:
+		i <- 0 !
+		while ((i > n) = 0) * ((i = n) = 0)?
+			sum <- sum * 2 !
+			i <- i + 1 !
+		!
+		pow2 <- sum !
+	!
+!

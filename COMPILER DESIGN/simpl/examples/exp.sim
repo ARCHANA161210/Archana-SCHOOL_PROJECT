@@ -1,0 +1,14 @@
+exp(m n)
+    |prod i|
+    prod <- 1!
+    if(n > 0) + (n = 0) = 0?
+	exp <- prod!
+    :
+	i <- n!
+	while i > 0?
+	    prod <- prod * m!
+	    i <- i - 1!
+	!
+	exp <- prod!
+    !
+!

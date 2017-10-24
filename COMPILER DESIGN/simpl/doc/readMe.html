@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    
+  <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win95; I) [Netscape]">
+  <title>SIMPL Compiler Use</title>
+</head>
+ <body bgcolor="#ffffff">
+  
+<center><b><font size="+1">SIMPL Compiler Use</font></b> 
+<p><i>James Gil de Lamadrid</i></p>
+</center>
+  
+<p><br>
+ <br>
+ <br>
+ <br>
+ </p>
+<p>SIMPL (Small Imperative Programming Language) is a small language suitable 
+for implementation as a project in a compiler design class. A brief <a href="#d">
+description</a>
+ of the language follows, including information on <a href="#i">instalation</a>
+, and <a href="#u">use</a>
+. For information on the compiler implementation see documents on: </p>
+<blockquote><a href="lexical.html" target="file:///a:/simpl/simpl/doc/lexical.html">
+Lexical Analysis</a>
+ <br>
+  <a href="syntax.html" target="file:///A:/SIMPL/simpl/doc/Syntax.html">Syntactic 
+Analysis</a>
+ <br>
+  <a href="Semantic.html">Semantic Analysis</a>
+ <br>
+  <a href="runtime.html">Runtime Support</a>
+ <br>
+  <a href="codegen.html">Code Generation</a>
+  <br>
+  <a href="example.html">Example Program</a>
+  <br>
+  </blockquote>
+ <a name="d"></a>
+  <b>Description</b> 
+  <p>SIMPL is a language that manipulates counting numbers. A SIMPL program 
+has the form: </p>
+  <blockquote><i>progName</i>(<i>inputVariables</i>) |<i>localVariables</i>
+| <i>body</i> !</blockquote>
+ Both the input variable list and the local variable list are lists of variable 
+names, separated by spaces. The body of the program is a list of statements. 
+There are three statement types: assignment, conditional, and iterative. The
+assignment statement has the form: 
+    <blockquote><i>variableName</i> &lt;- <i>expression</i> !</blockquote>
+ The conditional has the form 
+      <blockquote>if <i>expression</i> ? <i>thenStatements</i> : <i>elseStatements</i>
+ !</blockquote>
+ The iterative statement has the form: 
+        <blockquote>while <i>expression</i> ? <i>loopStatements</i> !</blockquote>
+ Expressions are composed of the relational operators &gt; and =, the arithmetic 
+operators +, -, *, and /, with the usual meanings and order of evaluation, 
+variable names, and counting number constants. The - operator in SIMPL represents
+monus, rather than minus. 
+          <p>A SIMPL program is executed by reading in values for the input
+variables, executing the body of the program, and outputting the return value.
+The return value of the program is the last value assigned to the program
+name. </p>
+          <p><a name="i"></a>
+          <b>Installation</b> </p>
+          <p>The SIMPL compiler compiles SIMPL code to the <i>jasmin</i>
+assembly language. The <i>jasmin</i> target code must then be assembled using
+the <i>jasmin</i> assembler. The output of the <i>jasmin</i> assembler is
+a <i>java</i> .class file, which can then be run on the <i>java</i> virtual
+machine, supported by the <i>java</i> class library and the SIMPL class library. 
+          </p>
+          <p>The installation of SIMPL requires the correct installation
+of both <i>java</i>, and <i>jasmin</i>. Once these are correctly installed,
+install the <i>simpl </i>directory on the hard drive. Then modify the PATH
+environment variable, to include the appropriate <i>simpl</i> directories.
+As an example, on a PC system you might set them as follows: </p>
+          <blockquote>set PATH= %PATH%;c:\simpl\bin</blockquote>
+ On UNIX you might set them as follows: 
+            <blockquote>setenv PATH ${PATH}:/usr/local/simpl/bin</blockquote>
+ <a name="u"></a>
+              <b>Use</b> 
+              <p>After setting the environment, two batch files can be used
+to run SIMPL. To compile a SIMPL program file, called <i>prog.sim</i>, change
+the directory to the parent directory of <i>prog.sim</i>, and type the command 
+              </p>
+              <blockquote>simpl prog</blockquote>
+ This will create a <i>jasmin</i> file called <i>prog.j</i>, which can be 
+assembled with the command 
+                <blockquote>jasmin prog.j</blockquote>
+ This will create a .class file with the same name as the SIMPL program name.
+Let us assume that the program name is the same as the file name. Then, to
+run the SIMPL program, type 
+                  <blockquote>run prog</blockquote>
+ This causes a GUI interface to appear. The user is prompted for input, the
+output is displayed, and the GUI session end when the user clicks the close
+box of the GUI window. 
+                    <p>Depending on the location of the <i>simpl</i> directory
+the CLASSPATH settings in the batch files <i>run.bat</i> and <i>simpl.bat</i>
+ may require modification, to run properly. </p>
+                    </body>
+                    </html>

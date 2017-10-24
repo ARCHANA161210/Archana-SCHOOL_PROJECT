@@ -1,0 +1,6 @@
+#!/bin/csh
+set SCRIPT=`readlink -f "$0"`
+set SCRIPTPATH=`dirname $SCRIPT`
+set SLPATH=$SCRIPTPATH"/../lib/classes.zip"
+setenv CLASSPATH ${SLPATH}:.
+java simpl $1 $2 $3 $4 $5 $6 $7 $8 $9

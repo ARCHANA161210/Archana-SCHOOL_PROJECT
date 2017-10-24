@@ -1,0 +1,22 @@
+fibonaci(n)
+  | i j k sum |
+
+      i<-0!
+      j<-1!
+	  k<-1!  
+     if (n>0)=0?
+         fibonaci<-n!
+      :!
+     if (1>n)=0?
+            while(k>n)=0?
+	      sum<-j+i!
+              i<-j!
+              j<-sum!
+              k<-k+1!
+!
+      :  fibonaci<-n!
+      
+       
+	   !
+ fibonaci<-sum!
+!

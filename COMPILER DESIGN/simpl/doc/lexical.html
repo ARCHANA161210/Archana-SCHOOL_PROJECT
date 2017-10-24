@@ -1,0 +1,57 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win95; I) [Netscape]">
+   <title>Lexical</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center><b>SIMPL Lexical Analysis</b>
+<p><i>James Gil de Lamadrid</i></center>
+
+<p><br>
+<br>
+<br>
+<p>The following table gives the token types in the SIMPL language. (Note:
+a \ indicates that a meta-character is being used as a literal.)
+<br>&nbsp;
+<table BORDER=3 CELLPADDING=2 >
+<tr>
+<td><i>token</i></td>
+
+<td>! | ? | \| | : | &lt;- | \( | \) | if | while | > | = | \* | / | \+
+| - | <i>id</i> | <i>num | eof | error</i></td>
+</tr>
+
+<tr>
+<td><i>id</i></td>
+
+<td><i>letter</i> (<i>letter | digit</i> | _)<sup>*</sup></td>
+</tr>
+
+<tr>
+<td><i>num</i></td>
+
+<td><i>digit<sup>+</sup></i></td>
+</tr>
+
+<tr>
+<td><i>letter</i></td>
+
+<td>a | b | c ... | z | A | B | C ... | Z</td>
+</tr>
+
+<tr>
+<td><i>digit</i></td>
+
+<td>0 | 1 | 2 ... | 9</td>
+</tr>
+</table>
+
+<hr>
+<center>
+<p><a href="readMe.html">Back to Compiler Use</a></center>
+
+</body>
+</html>

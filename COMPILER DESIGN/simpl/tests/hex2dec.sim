@@ -1,0 +1,18 @@
+hex2dec(n1 n2 n3 n4) |i sum z|
+	sum <- 0 !
+	i <- 1 !
+	while (i > 4) = 0?
+		if i = 1?
+			z <- n1 !
+		: if i = 2?
+			z <- n2 !
+		: if i = 3?
+			z <- n3 !
+		: 
+			z <- n4 !
+		!!!
+		sum <- sum * 16 + z !
+		i <- i + 1 !
+	!
+	hex2dec <- sum !
+!

@@ -1,0 +1,311 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]">
+   <title>Semantic</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center><b><font size=+1>SIMPL Semantic Analysis</font></b>
+<p><i>James Gil de Lamadrid</i></center>
+
+<p><br>
+<br>
+<br>
+<p>This section discussed the form of the <a href="#t">symbol table</a>,
+the form of the <a href="#s">syntax tree</a>, and <a href="#n">syntax tree
+attributes</a>.
+<p><a NAME="t"></a><b>Symbol Table</b>
+<p>The SIMPL compiler uses a syntax tree produced by the parser to perform
+semantic analysis. A central structure in the analysis is the symbol table.
+The form of a symbol table entry is as follows:
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td><b>Field</b></td>
+
+<td><b>Values</b></td>
+
+<td><b>Description</b></td>
+</tr>
+
+<tr>
+<td><i>name</i></td>
+
+<td><i>String</i></td>
+
+<td>The name of the variable.</td>
+</tr>
+
+<tr>
+<td><i>ioType</i></td>
+
+<td>OUT
+<br>IN
+<br>LOCAL</td>
+
+<td>One of three possible functions of the variable.</td>
+</tr>
+
+<tr>
+<td><i>varNum</i></td>
+
+<td><i>Integer</i></td>
+
+<td>Each variable is assigned a local variable number
+<br>(used by the JVM).</td>
+</tr>
+</table>
+
+<p><a NAME="s"></a><b>Syntax Tree</b>
+<p>A syntax tree is built out of several node types. These are listed below:
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td><b>Node Type</b></td>
+
+<td><b>Children</b></td>
+
+<td><b>Description</b></td>
+</tr>
+
+<tr>
+<td>PROG</td>
+
+<td><i>p1 p2 p3 p4</i></td>
+
+<td>The top level program node, with name <i>p1</i>, input variables <i>p2</i>,
+local variables <i>p3,</i>
+<br>and body <i>p4</i>.</td>
+</tr>
+
+<tr>
+<td>ID</td>
+
+<td>&nbsp;</td>
+
+<td>A node representing a variable reference or declaration.</td>
+</tr>
+
+<tr>
+<td>SPACE</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A list of variable declarations, with head <i>p1</i>, and tail <i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>NULL</td>
+
+<td>&nbsp;</td>
+
+<td>The empty list node.</td>
+</tr>
+
+<tr>
+<td>!</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A list of statements, with head <i>p1</i>, and tail <i>p2.</i></td>
+</tr>
+
+<tr>
+<td>IF</td>
+
+<td><i>p1 p2 p3</i></td>
+
+<td>An <i>if</i> statement node, with <i>test</i> expression <i>p1</i>,
+<i>then</i>
+part <i>p2</i>, and <i>else</i> part <i>p3</i>.</td>
+</tr>
+
+<tr>
+<td>WHILE</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A <i>while</i> statement node, with <i>test</i> expression <i>p1</i>,
+and body <i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>&lt;-</td>
+
+<td><i>p1 p2</i></td>
+
+<td>An assignment statement node, with variable l-value <i>p1</i>, and
+r-value expression <i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>></td>
+
+<td><i>p1 p2</i></td>
+
+<td>A greater than operator, with left operand <i>p1</i>, and right operand
+<i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>=</td>
+
+<td><i>p1 p2</i></td>
+
+<td>An equals operator, with left operand <i>p1</i>, and right operand
+<i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>+</td>
+
+<td><i>p1 p2</i></td>
+
+<td>An addition operator, with left operand <i>p1</i>, and right operand
+<i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>-</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A monus operator, with left operand <i>p1</i>, and right operand <i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>*</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A multiplication operator, with left operand <i>p1</i>, and right operand
+<i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>/</td>
+
+<td><i>p1 p2</i></td>
+
+<td>A division operator, with left operand <i>p1</i>, and right operand
+<i>p2</i>.</td>
+</tr>
+
+<tr>
+<td>NUM</td>
+
+<td>&nbsp;</td>
+
+<td>A node representing a counting number constant.</td>
+</tr>
+</table>
+
+<p><a NAME="n"></a><b>Node Attributes</b>
+<p>During semantic analysis several attributes are calculated, and added
+to the nodes of the syntax tree. The table below lists the attributes attached
+to each node.
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td><b>Attribute</b></td>
+
+<td><b>Values</b></td>
+
+<td><b>Description</b></td>
+
+<td><b>Calculation</b></td>
+</tr>
+
+<tr>
+<td><i>name</i></td>
+
+<td><i>String</i></td>
+
+<td>The character string representation of a token.</td>
+
+<td>Supplied by the lexical scanner.</td>
+</tr>
+
+<tr>
+<td><i>value</i></td>
+
+<td><i>Integer</i></td>
+
+<td>The numeric value of a constant.</td>
+
+<td>Supplied by the lexical scanner.</td>
+</tr>
+
+<tr>
+<td><i>lineNum</i></td>
+
+<td><i>Integer</i></td>
+
+<td>The source line on which a token was scanned.</td>
+
+<td>Supplied by the lexical scanner.</td>
+</tr>
+
+<tr>
+<td><i>symTab</i></td>
+
+<td><i>Symbol Table</i></td>
+
+<td>A pointer to the global symbol table.</td>
+
+<td>Synthesized by the PROG node <i>p1</i>, <i>p2</i>, and <i>p3</i> children;
+inherited by the <i>p4</i> child.</td>
+</tr>
+
+<tr>
+<td><i>use</i></td>
+
+<td>DECLARE
+<br>REF</td>
+
+<td>The use of a variable name; either declared or referenced.</td>
+
+<td>Inherited through all children of the PROG node.</td>
+</tr>
+
+<tr>
+<td><i>size</i></td>
+
+<td><i>Integer</i></td>
+
+<td>The number of leaf nodes in a nodes subtree.</td>
+
+<td>Synthesized from the nodes children.</td>
+</tr>
+
+<tr>
+<td><i>lab1</i></td>
+
+<td><i>String</i></td>
+
+<td>A generated label, used by control nodes.</td>
+
+<td>Synthesized in the <i>p4</i> child of the PROG node, using a label
+generator.</td>
+</tr>
+
+<tr>
+<td><i>lab2</i></td>
+
+<td><i>String</i></td>
+
+<td>A generated label, used by control nodes.</td>
+
+<td>Synthesized in the <i>p4</i> child of the PROG node, using a label
+generator.</td>
+</tr>
+</table>
+
+<hr>
+<center>
+<p><a href="readMe.html">Back to Compiler Use</a></center>
+
+</body>
+</html>

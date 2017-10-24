@@ -1,0 +1,43 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win95; I) [Netscape]">
+   <title>Syntax</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center><b><font size=+1>SIMPL Syntactic Analysis</font></b>
+<p><i>James Gil de Lamadrid</i></center>
+
+<p><br>
+<br>
+<p>The following is the LL(1) grammar for the SIMPL language. (Note: the
+\ indicates a meta-character is being used as a literal, and the # indicates
+locations in which syntax tree nodes are constructed.
+<blockquote>&lt;prog> ::= &lt;id> \( &lt;varlist> \) \| &lt;varlist> \|
+&lt;statlist> ! &lt;eof> #
+<br>&lt;varlist> ::= &lt;id> &lt;varlist> # | <font face="Symbol">l </font>#
+<br>&lt;statlist> ::= &lt;stat> &lt;statlist> # | <font face="Symbol">l
+</font>#
+<br>&lt;stat> ::= &lt;assign> | &lt;ifstat> | &lt;whilestat>
+<br>&lt;assign> ::= &lt;id> &lt;- &lt;expr> ! #
+<br>&lt;ifstat> ::= if &lt;expr> ? &lt;statlist> : &lt;statlist> ! #
+<br>&lt;whilestat> ::= while &lt;expr> ? &lt;statlist> ! #
+<br>&lt;expr> ::= &lt;aexp> &lt;exprtail>
+<br>&lt;exprtail ::= = &lt;aexp> # &lt;exprtail> | > &lt;aexp> # &lt;exprtail>
+| <font face="Symbol">l</font>
+<br>&lt;aexp> ::= &lt;mexp> &lt;aexptail>
+<br>&lt;aexptail> ::= + &lt;mexp> # &lt;aexptail> | - &lt;mexp> # &lt;aexptail>
+| <font face="Symbol">l</font>
+<br>&lt;mexp> ::= &lt;atom> &lt;mexptail>
+<br>&lt;mexptail> ::= * &lt;atom> # &lt;mexptail> | / &lt;atom> # &lt;mexptail>
+| <font face="Symbol">l</font>
+<br>&lt;atom> ::= &lt;id> # | &lt;num> # | \( &lt;expr> \)</blockquote>
+
+<hr>
+<center>
+<p><a href="readMe.html">Back to Compiler Use</a></center>
+
+</body>
+</html>

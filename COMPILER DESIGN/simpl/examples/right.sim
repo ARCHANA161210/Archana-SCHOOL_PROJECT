@@ -1,0 +1,8 @@
+right(a b c)
+        ||
+        if a * a + b * b = c * c?
+                right <- 1!
+        :
+                right <- 0!
+        !
+!

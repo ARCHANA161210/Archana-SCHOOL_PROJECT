@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+    
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    
+  <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]">
+  <title>CodeGen</title>
+</head>
+ <body bgcolor="#ffffff">
+  
+<center><b><font size="+1">SIMPL Code Generation</font></b> 
+<p><i>James Gil de Lamadrid</i></p>
+</center>
+  
+<p><br>
+ <br>
+ </p>
+<p>The target machine for the SIMPL compiler is the JVM. Code is generated 
+from the syntax tree, using the templates given below. (Note: the <i>BANNER</i>
+ is a comment string identifying the compiler and version.) <br>
+&nbsp; 
+<table border="3" cellspacing="3" cellpadding="3">
+ <tbody>
+    <tr>
+ <td width="100"><b>Node Type</b></td>
+  <td><b>Template</b></td>
+ </tr>
+  <tr>
+ <td width="100">PROG</td>
+  <td>; <i>BANNER</i> <br>
+.class public <i>p1.name</i> <br>
+.super java/lang/Object <br>
+.method public static main([Ljava/lang/String;)V <br>
+      <i>&nbsp;&nbsp; p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p3.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p4.generateCode</i> <br>
+&nbsp;&nbsp; iload <i>p1.varNum</i> <br>
+&nbsp;&nbsp; invokestatic simpl/outputNum(I)V <br>
+&nbsp;&nbsp; return <br>
+.limit stack <i>p4.size+1</i> <br>
+.limit locals <i>symTab.size+1</i> <br>
+.end method&nbsp;</td>
+ </tr>
+  <tr>
+ <td width="100">ID <br>
+      <i>ioType</i>=OUT <i>use=</i>DECLARE</td>
+  <td>&nbsp;&nbsp; ldc "<i>name</i>" <br>
+&nbsp;&nbsp; invokestatic simpl/registerIO(Ljava/lang/String;)V <br>
+&nbsp;&nbsp; sipush 0&nbsp; <br>
+&nbsp;&nbsp; istore <i>varNum</i></td>
+ </tr>
+  <tr>
+ <td>ID <br>
+      <i>ioType</i>=IN&nbsp; <br>
+      <i>use=</i>DECLARE</td>
+  <td>&nbsp;&nbsp; ldc "<i>name</i>" <br>
+&nbsp;&nbsp; invokestatic simpl/inputNum(Ljava/lang/String;)I<br>
+&nbsp;&nbsp; istore <i>varNum</i><br>
+      </td>
+ </tr>
+  <tr>
+ <td>ID <br>
+      <i>ioType</i>=LOCAL&nbsp; <br>
+      <i>use=</i>DECLARE</td>
+  <td>&nbsp;&nbsp; sipush 0 <br>
+&nbsp;&nbsp; istore <i>varNum</i><br>
+      </td>
+ </tr>
+  <tr>
+ <td>ID <br>
+      <i>use=</i>REF</td>
+  <td>&nbsp;&nbsp; iload <i>varNum</i></td>
+ </tr>
+  <tr>
+ <td>SPACE</td>
+  <td><i>&nbsp;&nbsp; p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i></td>
+ </tr>
+  <tr>
+ <td>NULL</td>
+  <td>&nbsp;</td>
+ </tr>
+  <tr>
+ <td>!</td>
+  <td>&nbsp;&nbsp;<i> p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i></td>
+ </tr>
+  <tr>
+ <td>IF</td>
+  <td>&nbsp;&nbsp; <i>p1.generateCode</i> <br>
+&nbsp;&nbsp; ifeq <i>lab1</i> <br>
+&nbsp;&nbsp; <i>p2.generateCode</i> <br>
+&nbsp;&nbsp; goto <i>lab2</i> <br>
+      <i>lab1</i>: <br>
+&nbsp;&nbsp; <i>p3.generateCode</i> <br>
+      <i>lab2</i>:&nbsp;</td>
+ </tr>
+  <tr>
+ <td>WHILE</td>
+  <td><i>lab1</i>: <br>
+&nbsp;&nbsp; <i>p1.generateCode</i> <br>
+&nbsp;&nbsp; ifeq <i>lab2</i> <br>
+&nbsp;&nbsp; <i>p2.generateCode</i> <br>
+&nbsp;&nbsp; goto <i>lab1</i> <br>
+      <i>lab2</i>:&nbsp;</td>
+ </tr>
+  <tr>
+ <td>&lt;-</td>
+  <td><i>&nbsp;&nbsp; p2.generateCode</i> <br>
+&nbsp;&nbsp; istore <i>p1.varNum</i></td>
+ </tr>
+  <tr>
+ <td>&gt;</td>
+  <td>&nbsp;&nbsp; <i>p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i> <br>
+&nbsp;&nbsp; if_icmpgt <i>lab1</i> <br>
+&nbsp;&nbsp; sipush 0 <br>
+&nbsp;&nbsp; goto <i>lab2</i> <br>
+      <i>lab1</i>: <br>
+&nbsp;&nbsp; sipush 1 <br>
+      <i>lab2</i>:&nbsp;</td>
+ </tr>
+  <tr>
+ <td>=</td>
+  <td>&nbsp;&nbsp; <i>p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i> <br>
+&nbsp;&nbsp; if_icmpeq <i>lab1</i> <br>
+&nbsp;&nbsp; sipush 0 <br>
+&nbsp;&nbsp; goto <i>lab2</i> <br>
+      <i>lab1</i>: <br>
+&nbsp;&nbsp; sipush 1 <br>
+      <i>lab2</i>:&nbsp;</td>
+ </tr>
+  <tr>
+ <td>+</td>
+  <td><i>&nbsp;&nbsp; p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i> <br>
+&nbsp;&nbsp; iadd&nbsp;</td>
+ </tr>
+  <tr>
+ <td>-</td>
+  <td><i>&nbsp;&nbsp; p1.generateCode</i> <br>
+      <i>&nbsp;&nbsp; p2.generateCode</i> <br>
+&nbsp;&nbsp; isub <br>
+&nbsp;&nbsp; dup <br>
+&nbsp;&nbsp; ifge <i>lab1</i> <br>
+&nbsp;&nbsp; pop <br>
+&nbsp;&nbsp; sipush 0 <br>
+      <i>lab1</i>:&nbsp;</td>
+ </tr>
+  <tr>
+ <td>*</td>
+  <td><i>&nbsp;&nbsp; p1.generateCode</i> <br>
+&nbsp;&nbsp; <i>p2.generateCode</i> <br>
+&nbsp;&nbsp; imul&nbsp;</td>
+ </tr>
+  <tr>
+ <td>/</td>
+  <td><i>&nbsp;&nbsp; p1.generateCode</i> <br>
+&nbsp;&nbsp; <i>p2.generateCode</i> <br>
+&nbsp;&nbsp; idiv&nbsp;</td>
+ </tr>
+  <tr>
+ <td>NUM</td>
+  <td>&nbsp;&nbsp; sipush <i>name</i></td>
+ </tr>
+ 
+  </tbody>
+</table>
+  </p>
+<p> </p>
+<hr width="100%"> 
+<center> 
+<p><a href="readMe.html">Back to Compiler Use</a>
+</p>
+</center>
+  
+</body>
+</html>

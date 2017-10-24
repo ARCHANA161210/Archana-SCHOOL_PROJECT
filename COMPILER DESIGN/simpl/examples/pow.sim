@@ -1,0 +1,4 @@
+pow2(n) |i sum|
+	sum <- 1 !
+		pow2 <- sum +n !
+!

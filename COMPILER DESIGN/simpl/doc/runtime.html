@@ -1,0 +1,242 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]">
+   <title>Runtime</title>
+</head>
+<body bgcolor="#FFFFFF">
+
+<center><b><font size=+1>SIMPL Runtime Support</font></b>
+<p><i>James Gil de Lamadrid</i></center>
+
+<p>This section describes <a href="#c">code conventions</a> used by the
+SIMPL compiler, and the parts of the <a href="#j">JVM architecture</a>
+that are pertinent to SIMPL.
+<p><a NAME="c"></a><b>Runtime Convention</b>
+<p>All expressions in SIMPL are evaluated in a uniform way. An expression
+is an operator with several operands, which are themselves expressions.
+By convention, to evaluate an operator, its operands are first evaluated.
+As each operand is evaluated it pushes its result on to the system stack.
+Then, the operator pops the operator pops the operand values off of the
+stack, processes them, and pushes its result onto the stack. In this way
+no temporary variables are required. All temporary storage is allocated
+off of the stack.
+<p>SIMPL programs are compiled to a <i>jasmin</i> method (procedure). The
+<i>Java</i>
+conventions for function calls are followed. That is to say, arguments
+are pushed onto the stack, and values are returned on the stack. On the
+JVM, each method has its own stack, and its own local variables. The <i>jasmin</i>
+assembler must be informed as to the number of local variables each method
+is using, and the size of its stack. Local variables are identified by
+their numbers. All SIMPL variables are stored in local variables. The compiler,
+therefore, generates labels for use with gotos, and numbers to be used
+as variables.
+<p>If a SIMPL program declares <i>n</i> variables (including IN, OUT, and
+LOCAL variables), the corresponding <i>jasmin</i> method should allocate
+<i>n</i>
++ 1 local variables. Local variable 0 is special purpose, and should not
+be used by the method. Local variables 1 through <i>n</i> are used to implement
+the SIMPL variables. A method's stack size is set to one more than the
+number of leaf nodes (including variable declarations) in the syntax tree.
+It can be shown that this size exceeds the maximum number of items a SIMPL
+program can push.
+<p><a NAME="j"></a><b><i>Jasmin</i> and the JVM</b>
+<p>A JVM executable program consists of one or more <i>.class</i> files.
+Each class file is roughly equivalent to an object file. On the JVM linking
+is dynamic. This means that if a method is called which is external to
+the <i>.class</i> file, the method is located during runtime. This eliminates
+the need for a linker, which performs static linking. To narrow down the
+search required for the dynamic link, the environment variable, CLASSPATH,
+contains the paths to all library directives, and only these libraries
+are searched during dynamic linking.
+<p>The JVM is a stack based machine. All instructions use the current method's
+stack to perform operations.
+<p>Below is a list of the <i>jasmin</i> directives and JVM instructions
+used in the <a href="codegen.html">code templates</a>.
+<p><u>Directives</u>
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td WIDTH="400">.class public <i>filename</i></td>
+
+<td>Specifies the name of the <i>.class</i> file.</td>
+</tr>
+
+<tr>
+<td WIDTH="400">.super <i>superclassFile</i></td>
+
+<td>The superclass of the class (a lot like an include statement in <i>C</i>.</td>
+</tr>
+
+<tr>
+<td WIDTH="400">.method public static <i>name</i>(<i>arguments</i>)<i>type</i></td>
+
+<td>Tells the assembler that this is the beginning of a new method.</td>
+</tr>
+
+<tr>
+<td>.end method</td>
+
+<td>Tells the assembler that this is the end of the current method.</td>
+</tr>
+
+<tr>
+<td>.limit stack <i>n</i></td>
+
+<td>Informs the assembler of the stack size for the current method.</td>
+</tr>
+
+<tr>
+<td>.limit locals <i>n</i></td>
+
+<td>Informs the assembler of the number of local variables (the local variables
+are numbered 0 to <i>n</i> - 1).</td>
+</tr>
+</table>
+
+<p><u><font color="#000000">Types</font></u>
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td>I</td>
+
+<td>Integer</td>
+</tr>
+
+<tr>
+<td>V</td>
+
+<td>Void</td>
+</tr>
+
+<tr>
+<td>Ljava/lang/String</td>
+
+<td>Character String</td>
+</tr>
+</table>
+
+<p><u><font color="#000000">Instructions</font></u>
+<br>&nbsp;
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td WIDTH="300">invokestatic <i>classFile</i>/<i>method</i></td>
+
+<td>Call a procedure, dynamically linking to it, and popping its argument.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">return</td>
+
+<td>Return from a procedure, pushing the return value.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">sipush <i>constant</i></td>
+
+<td>Push a short integer constant.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">istore <i>localVar</i></td>
+
+<td>Pop an integer into a local variable.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">ldc <i>constant</i></td>
+
+<td>Push a pointer to a constant stored in the data pool.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">iload <i>localVar</i></td>
+
+<td>Push an integer from a local variable.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">ifeq <i>label</i></td>
+
+<td>Pop the stack and jump if the popped value is equal to zero.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">ifge <i>label</i></td>
+
+<td>Pop the stack and jump is the popped value is greater than zero.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">goto <i>label</i></td>
+
+<td>Perform a jump.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">if_icmpgt <i>label</i></td>
+
+<td>Pop the stack twice, compare the two popped values, and jump if the
+first is greater than the second.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">if_icmpeq <i>label</i></td>
+
+<td>Pop the stack twice, compare the two popped values, and jump if the
+first is equal to the second.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">dup</td>
+
+<td>Duplicate the top value on the stack, and push the duplicate.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">pop</td>
+
+<td>Pop the top element off the stack.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">iadd</td>
+
+<td>Pop the stack twice, add the two integers popped, and push the result.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">isub</td>
+
+<td>Pop the stack twice, subtract the two integers popped, and push the
+result.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">imul</td>
+
+<td>Pop the stack twice, multiply the two integers popped, and push the
+result.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">idiv</td>
+
+<td>Pop the stack twice, divide the two integers popped, and push the result.</td>
+</tr>
+
+<tr>
+<td WIDTH="300">&nbsp;</td>
+
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+<center>
+<p><a href="readMe.html">Back to Compiler Use</a></center>
+
+</body>
+</html>

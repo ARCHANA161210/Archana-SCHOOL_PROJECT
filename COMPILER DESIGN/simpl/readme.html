@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2 (Linux)"/>
+	<meta name="created" content="2017-05-24T14:28:10.121347401"/>
+	<meta name="changed" content="2017-05-24T15:19:55.137497391"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 120% }
+		h2.western { font-family: "Liberation Sans", sans-serif; font-size: 16pt }
+		h2.cjk { font-family: "Noto Sans CJK SC Regular"; font-size: 16pt }
+		h2.ctl { font-family: "FreeSans"; font-size: 16pt }
+		h1 { margin-bottom: 0.08in }
+		h1.western { font-family: "Liberation Sans", sans-serif; font-size: 18pt }
+		h1.cjk { font-family: "Noto Sans CJK SC Regular"; font-size: 18pt }
+		h1.ctl { font-family: "FreeSans"; font-size: 18pt }
+		a:link { so-language: zxx }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h1 class="western">Simpl for Windows, and Linux</h1>
+<h2 class="western">Simpl Installation</h2>
+<p>To install the Simpl software, extract the Simpl directory from
+the archive, onto your hard-disk, at the desired location.  On Linux,
+you may also need to change the file permissions for the scripts in
+the “bin” directory, to include execute permission.</p>
+<h2 class="western">Distribution Contents</h2>
+<p style="margin-bottom: 0in; line-height: 100%">The Simpl folder
+contains the following sub directories.</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">Bin –
+	scripts for running the Simpl software.</p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">Doc –
+	documentation on the Simpl language.</p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">Examples –
+	a few example Simpl programs.</p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">SymTab –
+	C++ code for a symbol table class.</p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">Lib –
+	classes, forming the Simpl software.</p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%">Tests – a
+	benchmark suite, used to test out the Simpl compiler.</p>
+</ul>
+<h2 class="western">Using the Simpl Software</h2>
+<p>To run the Simpl software, you need to have the Java JRE installed
+on your machine.  
+</p>
+<p style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 14pt">Making
+Life Easier</font></font></p>
+<p>The commands to execute the Simpl software will not be recognized
+by your operating system, unless, either, you put the Simpl “bin”
+directory on your path variable, or you use the full path for the
+command, when running it.  We will explain a shortcut for the second
+option.  
+</p>
+<p>You can define an environment variable, which points to the path
+to the Simpl commands.  This saves typing when running the commands. 
+Here is the procedure.</p>
+<ol>
+	<li/>
+<p>Start up a shell.  In Linux you would start up a terminal,
+	and in Windows you would start up a command tool.</p>
+	<li/>
+<p>Navigate to the directory where you installed the Simpl
+	software, and then to the “bin” directory.  Let us assume that
+	you have installed Simpl to the directory <a href="/c:/simpl">c:\simpl</a>,
+	on Windows, or ~/simpl on Linux.  To navigate to the “bin”
+	directory in windows, you would execute the command<br/>
+<font face="Liberation Mono, monospace">cd
+	c:\simpl\bin<br/>
+<br/>
+</font><font face="Liberation Serif, serif">In
+	Linux, it would be<br/>
+</font><font face="Liberation Mono, monospace">cd
+	~/simpl/bin</font></p>
+	<li/>
+<p><font face="Liberation Serif, serif">We now set a variable,
+	“sd”, to point to this directory.  In Windows,<br/>
+</font><font face="Liberation Mono, monospace">set
+	sd=%cd%</font><font face="Liberation Serif, serif"><br/>
+<br/>
+In
+	Linux,<br/>
+</font><font face="Liberation Mono, monospace">set
+	sd=`pwd`</font></p>
+</ol>
+<p style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 14pt">Running
+the Simpl Compiler</font></font></p>
+<p>To compile a Simpl program, create a file, with the extension
+“.sim”.  For the purposes of this discussion, we will assume that
+the file is <a href="/c:/">c:\</a>prog.sim, for windows, and
+~/prog.sim for Linux.</p>
+<ol>
+	<li/>
+<p align="left">Move to the directory where the program is
+	located.<br/>
+<font face="Liberation Mono, monospace">cd <a href="/c:/">c:/</a><br/>
+</font><font face="Liberation Serif, serif">or<br/>
+</font><font face="Liberation Mono, monospace">cd
+	~</font></p>
+	<li/>
+<p align="left"><font face="Liberation Serif, serif">Run the
+	compiler.<br/>
+</font><font face="Liberation Mono, monospace">%sd$\simpl
+	prog</font><font face="Liberation Serif, serif"><br/>
+or<br/>
+</font><font face="Liberation Mono, monospace">$sd/simpl
+	prog</font></p>
+</ol>
+<p align="left"><font face="Liberation Serif, serif">This will create
+a file <a href="/c:/prog.j">c:\prog.j</a>, or ~/prog.j.</font></p>
+<p style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 14pt">Assembling
+the Program</font></font></p>
+<p>You now assemble the program.</p>
+<p><font face="Liberation Mono, monospace">%sd%\jasmin prog.j</font></p>
+<p><font face="Liberation Mono, monospace"><font face="Liberation Serif, serif">or</font></font></p>
+<p><font face="Liberation Mono, monospace">$sd/jasmin prog.j</font></p>
+<p><font face="Liberation Serif, serif">This produces a flie
+<a href="/c:/prog.class">c:\prog.class</a>, or ~/prog.class.</font></p>
+<p style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 14pt">Running
+the Program</font></font></p>
+<p>You can now run the program.</p>
+<p><font face="Liberation Mono, monospace">%sd%\run prog</font></p>
+<p><font face="Liberation Mono, monospace"><font face="Liberation Serif, serif">or</font></font></p>
+<p><font face="Liberation Mono, monospace">$sd/run prog</font></p>
+<p><font face="Liberation Mono, monospace"><font face="Liberation Serif, serif">This
+will pop up a window that allows you to perform I/O with your Simpl
+program.</font></font></p>
+</body>
+</html>
