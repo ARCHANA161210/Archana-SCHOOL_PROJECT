@@ -1,0 +1,175 @@
+drop table CUSTOMERS;
+drop table PRODUCTS;
+CREATE TABLE CUSTOMERS
+(
+key_column1 VARCHAR2(10) primary key,
+xml_column1 XMLType
+);
+
+
+CREATE TABLE PRODUCTS
+(
+key_column2 VARCHAR2(10) primary key,
+xml_column2 XMLType
+);
+
+INSERT INTO CUSTOMERS
+       VALUES
+       ('customer1',
+         xmltype('<Customer>
+      <Id>1</Id>
+      <FirstName>Joe</FirstName>
+      <Surname>Doe</Surname>
+      <contactnumber>111111111</contactnumber>
+      <age>25</age>
+      <gender>male</gender>
+    </Customer>'));
+INSERT INTO CUSTOMERS
+       VALUES
+       ('customer2',
+         xmltype('<Customer>
+      <Id>2</Id>
+      <FirstName>Mary</FirstName>
+      <Surname>Brown</Surname>
+      <contactnumber>2222222222</contactnumber>
+      <age>35</age>
+      <gender>female</gender>
+    </Customer>'));
+INSERT INTO CUSTOMERS
+       VALUES
+       ('customer3',
+         xmltype('<Customer>
+      <Id>3</Id>
+      <FirstName>Paul</FirstName>
+      <Surname>Smith</Surname>
+      <contactnumber>333333333</contactnumber>
+	<age>29</age>
+      <gender>male</gender>
+    </Customer>'));
+INSERT INTO CUSTOMERS
+       VALUES
+       ('customer4',
+         xmltype('<Customer>
+      <Id>4</Id>
+      <FirstName>mark</FirstName>
+      <Surname>williams</Surname>
+      <contactnumber>4444444444</contactnumber>
+	<age>51</age>
+      <gender>male</gender>
+    </Customer>'));
+INSERT INTO CUSTOMERS
+       VALUES
+       ('customer5',
+         xmltype('<Customer>
+      <Id>5</Id>
+      <FirstName>niyani</FirstName>
+      <Surname>Sharma</Surname>
+      <contactnumber>5555555555</contactnumber>
+	<age>37</age>
+      <gender>female</gender>
+     <Customer>'));
+INSERT INTO PRODUCTS
+       VALUES
+       ('product1',
+         xmltype('<Product>
+      <PId>1</PId>
+      <Name>Tea</Name>
+      <quantity>3</quantity> 
+      <expirydate>2011-02-09</expirydate>
+    </Product>'));
+INSERT INTO PRODUCTS
+       VALUES
+       ('product2',
+         xmltype('<Product>
+      <PId>2</PId>
+      <Name>Cereals</Name>
+      <quantity>6</quantity> 
+      <expirydate>2013-06-10</expirydate>
+    </Product>'));
+INSERT INTO PRODUCTS
+       VALUES
+       ('product3',
+         xmltype('<Product>
+      <PId>3</PId>
+      <Name>breads</Name>
+      <quantity>12</quantity> 
+      <expirydate>2014-08-11</expirydate>
+    </Product>'));
+INSERT INTO PRODUCTS
+       VALUES
+       (
+	'product4',
+         xmltype('<Product>
+      <PId>4</PId>
+      <Name>milk</Name>
+      <quantity>60</quantity> 
+      <expirydate>2016-12-09</expirydate>
+    </Product>'));
+
+INSERT INTO PRODUCTS
+       VALUES
+       (
+	'product5',
+         xmltype(' <Product>
+      <PId>5</PId>
+      <Name>coffee</Name>
+      <quantity>15</quantity> 
+      <expirydate>2013-11-07</expirydate>
+    </Product>'));
+=======================================================
+select x.xml_column1.getstringval() from customers x;
+select x.xml_column1.getstringclob() from customers x;
+=====================================================
+declare
+ cursor c1 is select xml_column1 from customers;
+ r xmltype;  
+begin
+ open c1;
+ loop
+  fetch c1 into r;
+  exit when c1%notfound;
+  dbms_output.put_line(r.getstringval());
+ end loop;
+ close c1;
+end;
+-- Dbms_output.put_line can only output 255 bytes
+-- thus this program only works if the xml document is <= 255 bytes
+===============================================
+select x.xml_column1.extract('/Customer/Fitstname/text()').getstringval() from customers x;
+=======================================================
+declare
+ cursor c1 is select x.xml_column1 from customers x;
+ r xmltype;  
+begin
+ open c1;
+ loop
+  fetch c1 into r;
+  exit when c1%notfound;
+ insert into relational_customers values(r.extract('Customer/Id/text()'),r.extract('Customer/FirstName/text()'),r.extract('Customer/Surname/text()'),r.extract('Customer/contactnumber/text()'),r.extract('Customer/age/text()'),r.extract('Customer/gender/text()'));
+ end loop;
+ close c1;
+end;
+==========================================================
+drop table relational_customers;
+CREATE table relational_customers(id varchar2(10),Firstname varchar2(10), Surname varchar2(10) , contactnumber varchar2(10) ,age varchar2(10),gender varchar2(10));
+
+============================================================
+drop table relational_products;
+CREATE table relational_products(pid varchar2(10),name varchar2(10) ,quantity varchar(10), expirydate varchar(15) );
+
+============================================================
+declare
+ cursor c1 is select x.xml_column2 from products x;
+ r xmltype;  
+begin
+ open c1;
+ loop
+  fetch c1 into r;
+  exit when c1%notfound;
+ insert into relational_products values(r.extract('Product/PId/text()'),r.extract('Product/Name/text()'),r.extract('Product/quantity/text()'),r.extract('Product/expirydate/text()'));
+ end loop;
+ close c1;
+end;
+===========================================================
+select * from relational_products;
+select * from relational_customers;
